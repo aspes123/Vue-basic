@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <link rel="stylesheet" href="Vue basic.css">
+  <title>Vue3簡易清單</title>
+</head>
+
+<body>
+  <div id="app">
+    <div class="inputNewThing">
+      <input type="text" placeholder="請輸入記事標題" v-model="noteTitle">
+      <br>
+      <textarea placeholder="請輸入記事內容" v-model="noteContent"></textarea>
+      <br>
+      <select v-model="noteColor">
+        <option disabled value="">顏色</option>
+        <option value="red">紅色</option>
+        <option value="green">綠色</option>
+        <option value="blue">藍色</option>
+      </select>
+      <br>
+      <button @click="addThing()">新增</button>
+    </div>
+    <div class="note" v-for="(note, index) in notes" :style="{ backgroundColor: note.color}">
+      <h3 class="title">
+        {{ note.title }}
+      </h3>
+      <p class="content">
+        {{ note.content }}
+      </p>
+      <button class="deleteButton" @click="deleteThing(note, index)">
+        X
+      </button>
+    </div>
+
+    <script>
+      const { createApp } = Vue
+
+      createApp({
+        data() {
+          return {
+            noteTitle: null,
+            noteContent: null,
+            noteColor: null,
+            notes: JSON.parse(localStorage.getItem("notes")) || [
+              {
+                title: "春節行程安排",
+                content: "吃飽睡，睡飽吃",
+                color: "#FF2D2D",
+              },
+              {
+                title: "工作待辦事項",
+                content: "詢問各家廠商報價",
+                color: "#1AFD9C",
+              },
+              {
+                title: "運動健身計畫",
+                content: "每天早上六點去健身",
+                color: "#2894FF",
+              },
+            ]
+          }
+        },
+        mounted() {
+          this.notes[0].content = "多出門、到處走走、也要多運動";
+        },
+        methods: {
+          addThing() {
+            if (this.noteTitle != null && this.noteContent != null && this.noteColor != null) {
+              let newThing = {
+                title: this.noteTitle,
+                content: this.noteContent,
+                color: this.noteColor,
+              };
+              this.notes.push(newThing);
+              this.noteTitle = null;
+              this.noteContent = null;
+              this.noteColor = null;
+            }
+          },
+
+          deleteThing(note, index) {
+            this.notes.splice(index, 1);
+          },
+
+        },
+        watch: {
+          notes: {
+            handler(newValue, oldValue) {
+              localStorage.setItem("notes", JSON.stringify(this.notes));
+            },
+            deep: true
+          }
+        }
+      }).mount('#app')
+    </script>
+</body>
+
+</html>

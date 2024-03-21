@@ -1,0 +1,40 @@
+.note {
+  border: 1px solid black;
+  border-radius: 5px;
+  margin: 5px;
+  padding: 5px;
+}
+
+.inputNewThing {
+  width: 500px;
+  margin: 50px auto;
+
+  input {
+    width: 97.2%;
+    padding: 5px;
+    margin-bottom: 5px;
+  }
+  textarea {
+    width: 97.5%;
+    padding: 5px;
+    margin-bottom: 5px;
+    height: 50px;
+  }
+  select,
+  button {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 5px;
+  }
+}
+
+.deleteButton {
+  background-color: rgba(255, 255, 255, 0);
+  border: 0px solid black;
+  padding-left: 2px;
+  transition: all .3s;
+}
+
+.deleteButton:hover {
+  color: white;
+}
